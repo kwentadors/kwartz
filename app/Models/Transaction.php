@@ -24,12 +24,12 @@ class Transaction extends Model
 
     public function debitEntries() {
         return $this->entries()
-            ->where('type', EntryType::CREDIT);
+            ->where('type', EntryType::DEBIT);
     }
 
     public function creditEntries() {
         return $this->entries()
-            ->where('type', EntryType::DEBIT);
+            ->where('type', EntryType::CREDIT);
     }
 
     public function debit(FinancialAccount $account, float $amount) {
