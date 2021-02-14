@@ -13,4 +13,8 @@ class TransactionController extends Controller
     public function index() {
         return new TransactionCollection(Transaction::paginate());
     }
+
+    public function show($id) {
+        return new TransactionResource(Transaction::findOrFail($id));
+    }
 }

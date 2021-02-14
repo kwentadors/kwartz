@@ -21,5 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function() {
-    Route::resource('transactions', TransactionController::class)->only('index');
+    Route::resource('transactions', TransactionController::class)
+        ->only('index', 'show');
 });
