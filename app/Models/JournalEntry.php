@@ -11,7 +11,7 @@ class JournalEntry extends Model
 
 
     // protected constructor, creation must be invoked from transaction
-    protected function __construct() {}
+    // protected function __construct() {}
 
     public function transaction() {
         return $this->belongsTo(Transaction::class);
