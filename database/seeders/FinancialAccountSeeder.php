@@ -17,17 +17,17 @@ class FinancialAccountSeeder extends Seeder
     public function run()
     {
         $accounts = [
-            [ 'id' => 1, 'name' => 'Cash', 'entryType' => EntryType::DEBIT ],
-            [ 'id' => 2, 'name' => 'Accounts Receivable', 'entryType' => EntryType::DEBIT ],
-            [ 'id' => 3, 'name' => 'Accounts Payable', 'entryType' => EntryType::CREDIT ],
-            [ 'id' => 4, 'name' => 'Owner\'s Capital', 'entryType' => EntryType::CREDIT ],
-            [ 'id' => 5, 'name' => 'Expense - Utility', 'entryType' => EntryType::CREDIT ],
+            [ 'id' => 1, 'name' => 'Cash', 'entry_type' => EntryType::DEBIT ],
+            [ 'id' => 2, 'name' => 'Accounts Receivable', 'entry_type' => EntryType::DEBIT ],
+            [ 'id' => 3, 'name' => 'Accounts Payable', 'entry_type' => EntryType::CREDIT ],
+            [ 'id' => 4, 'name' => 'Owner\'s Capital', 'entry_type' => EntryType::CREDIT ],
+            [ 'id' => 5, 'name' => 'Expense - Utility', 'entry_type' => EntryType::CREDIT ],
         ];
 
         foreach ($accounts as $account) {
             DB::table('financial_accounts')->insert([
                 'name' => $account['name'],
-                'entryType' => $account['entryType']
+                'entry_type' => $account['entry_type']
             ]);
         }
 

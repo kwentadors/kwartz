@@ -16,7 +16,7 @@ class CreateFinancialAccountsTable extends Migration
         Schema::create('financial_accounts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('entryType');
+            $table->string('entry_type');
         });
     }
 
