@@ -28,28 +28,52 @@ class TransactionTest extends TestCase
     public function test_transactions_index_nonempty()
     {
         $transactions = Transaction::factory()
-                ->hasDebitEntries(1, function(array $attributes, Transaction $trx) {
-                    return [
-                        'type'      => EntryType::DEBIT,
-                        'amount'    => $trx->amount
-                    ];
-                })
-                ->hasCreditEntries(1, function(array $attributes, Transaction $trx) {
-                    return [
-                        'type'      => EntryType::CREDIT,
-                        'amount'    => $trx->amount
-                    ];
-                })
-                ->count(2)
-                ->create();
+                            ->hasDebitEntries(1, function(array $attributes, Transaction $trx) {
+                                return [
+                                    'type'      => EntryType::DEBIT,
+                                    'amount'    => $trx->amount
+                                ];
+                            })
+                            ->hasCreditEntries(1, function(array $attributes, Transaction $trx) {
+                                return [
+                                    'type'      => EntryType::CREDIT,
+                                    'amount'    => $trx->amount
+                                ];
+                            })
+                            ->count(2)
+                            ->create();
 
-        $response = $this->get('/api/v1/transactions');
+        $response = $this->getJson('/api/v1/transactions');
 
         $response
             ->assertStatus(200)
             ->assertJson([
                 'data' => array_map('self::serializeTransaction', $transactions->all())
             ]);
+    }
+
+    public function test_transactions_show()
+    {
+        $transaction = Transaction::factory()
+                        ->hasDebitEntries(1, function(array $attributes, Transaction $trx) {
+                            return [
+                                'type'      => EntryType::DEBIT,
+                                'amount'    => $trx->amount
+                            ];
+                        })
+                        ->hasCreditEntries(1, function(array $attributes, Transaction $trx) {
+                            return [
+                                'type'      => EntryType::CREDIT,
+                                'amount'    => $trx->amount
+                            ];
+                        })
+                        ->create();
+
+        $response = $this->getJson("/api/v1/transactions/{$transaction->id}");
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(self::serializeTransaction($transaction));
     }
 
     private static function serializeTransaction(Transaction $trx) {
