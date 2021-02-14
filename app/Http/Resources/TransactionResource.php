@@ -21,7 +21,22 @@ class TransactionResource extends JsonResource
             'amount'            => $this->amount,
             'description'       => $this->null,
             'status'            => $this->status,
+            'debit'             => array_map('self::journalEntryResource',
+                                    $this->debitEntries->all()),
+            'credit'            => array_map('self::journalEntryResource',
+                                    $this->creditEntries->all()),
             '_links'            => $this->getLinks()
+        ];
+    }
+
+    private static function journalEntryResource($entry) {
+        return [
+            'id'        => $entry->id,
+            'account'   => [
+                'id'    => $entry->account->id,
+                'name'  =>$entry->account->name
+            ],
+            'amount'    => $entry->amount,
         ];
     }
 
