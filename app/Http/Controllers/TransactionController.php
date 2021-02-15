@@ -17,4 +17,8 @@ class TransactionController extends Controller
     public function show($id) {
         return new TransactionResource(Transaction::findOrFail($id));
     }
+
+    public function store(Request $request) {
+        return ['this is' => 'create method'];
+    }
 }
