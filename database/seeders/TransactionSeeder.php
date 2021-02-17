@@ -17,7 +17,6 @@ class TransactionSeeder extends Seeder
     public function run()
     {
         DB::table('transactions')->insert([
-            'id' => 1,
             'transaction_date' => new DateTime("2021-02-13"),
             'amount' => 4300,
             'status' => 'OPEN',
@@ -26,9 +25,9 @@ class TransactionSeeder extends Seeder
         ]);
 
         $journalEntries = [
-            [ 'id' => 1, 'amount' => 2500, 'type' => 'CR', 'account_id' => 1, 'transaction_id' => 1 ],
-            [ 'id' => 2, 'amount' => 1800, 'type' => 'CR', 'account_id' => 3, 'transaction_id' => 1 ],
-            [ 'id' => 3, 'amount' => 4300, 'type' => 'DR', 'account_id' => 5, 'transaction_id' => 1 ]
+            [ 'amount' => 2500, 'type' => 'CR', 'account_id' => 1, 'transaction_id' => 1 ],
+            [ 'amount' => 1800, 'type' => 'CR', 'account_id' => 3, 'transaction_id' => 1 ],
+            [ 'amount' => 4300, 'type' => 'DR', 'account_id' => 5, 'transaction_id' => 1 ]
         ];
 
         foreach ($journalEntries as $entry) {
