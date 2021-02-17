@@ -9,6 +9,10 @@ class Transaction extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'transaction_date', 'amount', 'description'
+    ];
+
     /**
      * The model's default values for attributes.
      *
