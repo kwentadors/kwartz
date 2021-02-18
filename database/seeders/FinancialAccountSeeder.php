@@ -17,11 +17,11 @@ class FinancialAccountSeeder extends Seeder
     public function run()
     {
         $accounts = [
-            [ 'id' => 1, 'name' => 'Cash', 'entry_type' => EntryType::DEBIT ],
-            [ 'id' => 2, 'name' => 'Accounts Receivable', 'entry_type' => EntryType::DEBIT ],
-            [ 'id' => 3, 'name' => 'Accounts Payable', 'entry_type' => EntryType::CREDIT ],
-            [ 'id' => 4, 'name' => 'Owner\'s Capital', 'entry_type' => EntryType::CREDIT ],
-            [ 'id' => 5, 'name' => 'Expense - Utility', 'entry_type' => EntryType::CREDIT ],
+            [ 'name' => 'Cash', 'entry_type' => EntryType::DEBIT ],
+            [ 'name' => 'Accounts Receivable', 'entry_type' => EntryType::DEBIT ],
+            [ 'name' => 'Accounts Payable', 'entry_type' => EntryType::CREDIT ],
+            [ 'name' => 'Owner\'s Capital', 'entry_type' => EntryType::CREDIT ],
+            [ 'name' => 'Expense - Utility', 'entry_type' => EntryType::CREDIT ],
         ];
 
         foreach ($accounts as $account) {

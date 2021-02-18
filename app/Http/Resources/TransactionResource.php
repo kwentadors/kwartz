@@ -18,8 +18,8 @@ class TransactionResource extends JsonResource
         return [
             'id'                => $this->id,
             'transaction_date'  => $this->transaction_date,
-            'amount'            => $this->amount,
-            'description'       => $this->null,
+            'amount'            => (float)$this->amount,
+            'description'       => $this->description,
             'status'            => $this->status,
             'debit'             => array_map('self::journalEntryResource',
                                     $this->debitEntries->all()),
