@@ -6,9 +6,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Transaction;
 use App\Models\EntryType;
+use App\Models\FinancialAccount;
 use App\Models\JournalEntry;
 use App\Http\Resources\TransactionResource;
 use Tests\TestCase;
+use DateTime;
 
 class TransactionTest extends TestCase
 {
@@ -74,6 +76,77 @@ class TransactionTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson(self::serializeTransaction($transaction));
+    }
+
+    public function test_store()
+    {
+        $transaction_date = new DateTime("2020-01-29");
+        $debitAccount = FinancialAccount::factory()->create();
+        $creditAccount1 = FinancialAccount::factory()->create();
+        $creditAccount2 = FinancialAccount::factory()->create();
+
+        $requestBody = [
+            'transaction_date'  => $transaction_date->format('Y-m-d'),
+            'amount'            => 4000,
+            'description'       => 'Purchased car',
+            'debit'             => [
+                [
+                    'account_id'    => $debitAccount->id,
+                    'amount'        => 4000
+                ]
+            ],
+            'credit'            => [
+                [
+                    'account_id'    => $creditAccount1->id,
+                    'amount'        => 3500
+                ],
+                [
+                    'account_id'    => $creditAccount2->id,
+                    'amount'        => 500
+                ]
+            ]
+        ];
+
+        $response = $this->postJson('/api/v1/transactions', $requestBody);
+
+        $response
+            ->assertCreated()
+            ->assertJson([
+                'transaction_date'  => $requestBody['transaction_date'],
+                'amount'            => $requestBody['amount'],
+                'description'       => $requestBody['description']
+            ])
+            ->assertJsonCount(1, 'debit')
+            ->assertJson([
+                'debit' => [
+                    [
+                        'account'   => [
+                            'id'    => $debitAccount->id,
+                            'name'  => $debitAccount->name
+                        ],
+                        'amount'    => (string)$requestBody['debit'][0]['amount']
+                    ]
+                ]
+            ])
+            ->assertJsonCount(2, 'credit')
+            ->assertJson([
+                'credit' => [
+                    [
+                        'account'   => [
+                            'id'    => $creditAccount1->id,
+                            'name'  => $creditAccount1->name
+                        ],
+                        'amount'    => (string)$requestBody['credit'][0]['amount']
+                    ],
+                    [
+                        'account'   => [
+                            'id'    => $creditAccount2->id,
+                            'name'  => $creditAccount2->name
+                        ],
+                        'amount'    => (string)$requestBody['credit'][1]['amount']
+                    ]
+                ]
+            ]);
     }
 
     private static function serializeTransaction(Transaction $trx) {
