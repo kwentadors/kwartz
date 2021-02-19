@@ -17,8 +17,26 @@ class FinancialAccountResource extends JsonResource
         return [
             'id'        => $this->id,
             'name'      => $this->name,
-            'balance'   => $this->balance()
+            'balance'   => $this->balance(),
+
+            '_links'    => $this->getLinks()
         ];
     }
 
+    private function getLinks()
+    {
+        return [
+            [
+                'rel'       =>'self',
+                'href'      => route('accounts.show', ['account' => $this->id], false),
+                'method'    => 'GET'
+            ],
+            [
+                'rel'       =>'list_transactions',
+                // TODO replace with route()
+                'href'      => "api/v1/accounts/{$this->id}/transactions",
+                'method'    => 'GET'
+            ],
+        ];
+    }
 }
