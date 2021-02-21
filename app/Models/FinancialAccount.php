@@ -19,11 +19,11 @@ class FinancialAccount extends Model
     public function balance(): float
     {
         $debitAmount = $this->transactions()
-            ->where('type', EntryType::CREDIT)
+            ->where('type', EntryType::DEBIT)
             ->sum('amount');
 
         $creditAmount = $this->transactions()
-            ->where('type', EntryType::DEBIT)
+            ->where('type', EntryType::CREDIT)
             ->sum('amount');
 
         if($this->entry_type == EntryType::DEBIT) {
