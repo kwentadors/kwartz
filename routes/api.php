@@ -25,5 +25,5 @@ Route::prefix('v1')->group(function() {
     Route::resource('transactions', TransactionController::class)
         ->only('index', 'show', 'store');
     Route::resource('accounts', FinancialAccountController::class)
-        ->only('show');
+        ->only('index', 'show');
 });
