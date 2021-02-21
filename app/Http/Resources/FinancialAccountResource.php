@@ -27,14 +27,14 @@ class FinancialAccountResource extends JsonResource
     {
         return [
             [
-                'rel'       =>'self',
+                'rel'       => 'self',
                 'href'      => route('accounts.show', ['account' => $this->id], false),
                 'method'    => 'GET'
             ],
             [
-                'rel'       =>'list_transactions',
+                'rel'       => 'list_transactions',
                 // TODO replace with route()
-                'href'      => "api/v1/accounts/{$this->id}/transactions",
+                'href'      => "/api/v1/accounts/{$this->id}/transactions",
                 'method'    => 'GET'
             ],
         ];
