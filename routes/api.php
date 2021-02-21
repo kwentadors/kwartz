@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\FinancialAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +24,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function() {
     Route::resource('transactions', TransactionController::class)
         ->only('index', 'show', 'store');
+    Route::resource('accounts', FinancialAccountController::class)
+        ->only('show');
 });
