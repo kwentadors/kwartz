@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\FinancialAccountController;
+use App\Http\Controllers\FinancialAccountTransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +27,6 @@ Route::prefix('v1')->group(function() {
         ->only('index', 'show', 'store');
     Route::resource('accounts', FinancialAccountController::class)
         ->only('index', 'show');
+    Route::resource('accounts.transactions', FinancialAccountTransactionController::class)
+        ->only('index');
 });
