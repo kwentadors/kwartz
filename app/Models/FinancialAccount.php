@@ -11,18 +11,28 @@ class FinancialAccount extends Model
 
     public $timestamps = false;
 
-    public function transactions()
+    public function journalEntries()
     {
         return $this->hasMany(JournalEntry::class, 'account_id');
     }
 
+    public function transactions()
+    {
+        $transaction_ids = collect($this->journalEntries)
+                            ->map(function($journalEntry, $_) {
+                                return $journalEntry->transaction_id;
+                            });
+
+        return Transaction::whereIn('id', $transaction_ids);
+    }
+
     public function balance(): float
     {
-        $debitAmount = $this->transactions()
+        $debitAmount = $this->journalEntries()
             ->where('type', EntryType::DEBIT)
             ->sum('amount');
 
-        $creditAmount = $this->transactions()
+        $creditAmount = $this->journalEntries()
             ->where('type', EntryType::CREDIT)
             ->sum('amount');
 
