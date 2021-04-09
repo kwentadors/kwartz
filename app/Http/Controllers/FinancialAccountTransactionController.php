@@ -11,8 +11,8 @@ use App\Models\Transaction;
 class FinancialAccountTransactionController extends Controller
 {
     public function index(FinancialAccount $account) {
-        $journalEntries = $account->transactions();
+        $transactions = $account->transactions();
 
-        return new TransactionCollection($journalEntries->paginate());
+        return new TransactionCollection($transactions->paginate());
     }
 }

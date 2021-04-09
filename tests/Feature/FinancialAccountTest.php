@@ -23,7 +23,7 @@ class FinancialAccountTest extends TestCase
             ]);
     }
 
-    public function test_indeX_nonempty()
+    public function test_index_nonempty()
     {
         $accounts = FinancialAccount::factory()
                         ->count(2)->create();

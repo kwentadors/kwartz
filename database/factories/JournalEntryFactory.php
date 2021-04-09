@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\EntryType;
 use App\Models\FinancialAccount;
 use App\Models\JournalEntry;
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class JournalEntryFactory extends Factory
@@ -24,9 +25,10 @@ class JournalEntryFactory extends Factory
     public function definition()
     {
         return [
-            'amount'    => 3500.00,
-            'type'      => EntryType::DEBIT,
-            'account_id'=> FinancialAccount::factory()
+            'amount'            => 3499.25,
+            'type'              => EntryType::DEBIT,
+            'account_id'        => FinancialAccount::factory(),
+            'transaction_id'    => Transaction::factory()
         ];
     }
 }

@@ -25,7 +25,7 @@ class TransactionFactory extends Factory
     {
         return [
             'transaction_date'  => new DateTime(),
-            'amount'            => 3500.00,
+            'amount'            => 3499.25,
         ];
     }
 }
