@@ -25,8 +25,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function() {
     Route::resource('transactions', TransactionController::class)
         ->only('index', 'show', 'store');
+    Route::get('/transactions/{year}/{month}',
+        [TransactionController::class, 'listByMonthYear']);
+
     Route::resource('accounts', FinancialAccountController::class)
         ->only('index', 'show');
+
     Route::resource('accounts.transactions', FinancialAccountTransactionController::class)
         ->only('index');
 });

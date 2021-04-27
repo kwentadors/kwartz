@@ -22,6 +22,14 @@ class TransactionController extends Controller
         return new TransactionCollection(Transaction::paginate());
     }
 
+    public function listByMonthYear(int $year, int $month) {
+        $transactions = Transaction::whereYear('transaction_date', '=', $year)
+                        ->whereMonth('transaction_date', '=', $month)
+                        ->paginate();
+
+        return new TransactionCollection($transactions);
+    }
+
     public function show($id) {
         return new TransactionResource(Transaction::findOrFail($id));
     }
