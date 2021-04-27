@@ -10,7 +10,7 @@ use App\Models\FinancialAccount;
 use App\Models\Transaction;
 use App\Models\JournalEntry;
 
-class FinancialAccountTransactionControllerTest extends TestCase
+class FinancialAccountTransactionTest extends TestCase
 {
     use RefreshDatabase;
 
