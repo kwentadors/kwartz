@@ -54,6 +54,36 @@ class TransactionTest extends TestCase
             ]);
     }
 
+    public function test_listByMonthYear() {
+        $transactionDates = [
+            new DateTime('2019-02-02'),
+            new DateTime('2020-02-03'),
+            new DateTime('2020-02-05'),
+            new DateTime('2020-02-23'),
+            new DateTime('2020-03-05'),
+            new DateTime('2020-05-17'),
+            new DateTime('2020-12-05'),
+        ];
+
+        $transactions = array_map(function($transactionDate) {
+            return Transaction::factory()->create([
+                'transaction_date' => $transactionDate
+            ]);
+        }, $transactionDates);
+
+        $filterYear = 2020;
+        $filterMonth = 2;
+
+        $response = $this->get("/api/v1/transactions/$filterYear/$filterMonth");
+
+        $response
+            ->assertOk()
+            ->assertJson([
+                'data' => array_map('self::serializeTransaction',
+                    array_slice($transactions, 1, 3))
+            ]);
+    }
+
     public function test_transactions_show()
     {
         $transaction = Transaction::factory()
