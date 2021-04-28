@@ -16,7 +16,7 @@ class FinancialAccountSeeder extends Seeder
      */
     public function run()
     {
-        $accounts = $this->getDebitAccounts() + $this->getCreditAccounts();
+        $accounts = array_merge($this->getDebitAccounts(), $this->getCreditAccounts());
 
         foreach ($accounts as $account) {
             DB::table('financial_accounts')->insert([
