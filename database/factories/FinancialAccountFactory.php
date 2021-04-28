@@ -24,6 +24,7 @@ class FinancialAccountFactory extends Factory
     {
         return [
             'name'          => 'Cash',
+            'account_code'  => '1010',
             'entry_type'    => EntryType::DEBIT,
         ];
     }

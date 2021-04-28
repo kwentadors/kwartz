@@ -17,6 +17,7 @@ class CreateFinancialAccountsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('entry_type');
+            $table->string('account_code')->unique();
         });
     }
 
