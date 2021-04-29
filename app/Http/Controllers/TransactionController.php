@@ -19,7 +19,7 @@ class TransactionController extends Controller
     }
 
     public function index() {
-        return new TransactionCollection(Transaction::paginate());
+        return new TransactionCollection(Transaction::paginate(100));
     }
 
     public function listByMonthYear(int $year, int $month) {
