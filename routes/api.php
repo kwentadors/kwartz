@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\FinancialAccountController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\FinancialAccountTransactionController;
 
 /*
@@ -33,4 +34,6 @@ Route::prefix('v1')->group(function() {
 
     Route::resource('accounts.transactions', FinancialAccountTransactionController::class)
         ->only('index');
+
+    Route::get('/reports/assets', [ReportController::class, 'assetsReport']);
 });
