@@ -22,9 +22,11 @@ class FinancialAccountFactory extends Factory
      */
     public function definition()
     {
+        static $accountCodeCounter = 1000;
+        $accountCodeCounter += 10;
         return [
             'name'          => 'Cash',
-            'account_code'  => '1010',
+            'account_code'  => $accountCodeCounter,
             'entry_type'    => EntryType::DEBIT,
         ];
     }
