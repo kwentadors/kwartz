@@ -16,9 +16,10 @@ class AssetsReportResource extends JsonResource
     {
         return [
             'data' => [
-                'name'=> 'Assets',
-                'groups'=> $this->buildGroups(),
-                'accounts'=> $this->buildAccounts(),
+                'name'      => 'Assets',
+                'balance'   => sprintf('%.2f', $this->getBalance()),
+                'groups'    => $this->buildGroups(),
+                'accounts'  => $this->buildAccounts(),
             ]
         ];
     }

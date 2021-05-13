@@ -39,7 +39,8 @@ class ReportControllerTest extends TestCase
             ->assertOk()
             ->assertJson([
                 'data'  => [
-                    'name'  => 'Assets',
+                    'name'      => 'Assets',
+                    'balance'   => '48000.00'
                 ]
             ])
             ->assertJson([

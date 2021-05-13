@@ -73,4 +73,10 @@ class AssetsReportGroup {
 		$this->entries = $entries;
 		return $this;
 	}
+
+    public function getBalance() {
+        return array_reduce($this->entries, function($sum, $entry) {
+            return $sum + $entry->getCurrentBalance();
+        });
+    }
 }

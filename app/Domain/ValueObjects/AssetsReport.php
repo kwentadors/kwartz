@@ -25,4 +25,10 @@ class AssetsReport {
 
         return $this;
     }
+
+    public function getBalance() {
+        return array_reduce($this->groups, function($sum, $group) {
+            return $sum + $group->getBalance();
+        });
+    }
 }
