@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Services\AssetsReportGenerator;
-use Illuminate\Http\Request;
 use App\Http\Resources\AssetsReportResource;
 
 class ReportController extends Controller

@@ -15,9 +15,11 @@ class AssetsReportResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name'=> 'Assets',
-            'groups'=> $this->buildGroups(),
-            'accounts'=> $this->buildAccounts(),
+            'data' => [
+                'name'=> 'Assets',
+                'groups'=> $this->buildGroups(),
+                'accounts'=> $this->buildAccounts(),
+            ]
         ];
     }
 
@@ -33,18 +35,18 @@ class AssetsReportResource extends JsonResource
 
     private function buildAccounts()
     {
-        return array_reduce($this->getGroups(), function($result, $group) {
-            $entries = array_map(function($entry) use($group) {
+        return array_reduce($this->getGroups(), function ($result, $group) {
+            $entries = array_map(function ($entry) use ($group) {
                 return  [
                     'id'        => $entry->getId(),
                     'name'      => $entry->getName(),
-                    'balance'   => $entry->getCurrentBalance(),
-                    'change'    => $entry->getChangePercent(),
+                    'balance'   => sprintf('%.2f', $entry->getCurrentBalance()),
+                    'change'    => sprintf('%.2f', $entry->getChangePercent()),
                     'group_id'  => $group->getId(),
                 ];
             }, $group->getEntries());
 
             return array_merge($result, $entries);
-        },[]);
+        }, []);
     }
 }
