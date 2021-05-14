@@ -53,7 +53,7 @@ class ReportControllerTest extends TestCase
                         ],
                         [
                             'name'  => 'Paper investments',
-                            'change' => '0.00',
+                            'change' => null,
                         ],
                         [
                             'name'  => 'Receivable',
@@ -61,7 +61,7 @@ class ReportControllerTest extends TestCase
                         ],
                         [
                             'name'  => 'Property',
-                            'change' => '0.00',
+                            'change' => null,
                         ]
                     ]
                 ]
@@ -79,7 +79,7 @@ class ReportControllerTest extends TestCase
                             'name' => 'Savings - Unionbank',
                             'group_id'  => 1,
                             'balance'   => "10000.00",
-                            'change'    => "0.00"
+                            'change'    => null
                         ],
                         [
                             'name' => 'Accounts Receivable',

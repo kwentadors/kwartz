@@ -44,7 +44,7 @@ class AssetsReport
     public function getChangePercent()
     {
         if ($this->getPreviousBalance() == 0) {
-            return 0;
+            return null;
         }
 
         return ($this->getBalance() - $this->getPreviousBalance())/$this->getPreviousBalance() * 100;

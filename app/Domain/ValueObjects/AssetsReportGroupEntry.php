@@ -95,7 +95,7 @@ class AssetsReportGroupEntry
 
     public function getChangePercent() {
         if($this->previous_balance == 0) {
-            return 0;
+            return null;
         }
 
         return ($this->current_balance - $this->previous_balance)/$this->previous_balance * 100;

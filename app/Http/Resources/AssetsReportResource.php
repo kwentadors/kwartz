@@ -18,7 +18,7 @@ class AssetsReportResource extends JsonResource
             'data' => [
                 'name'      => 'Assets',
                 'balance'   => sprintf('%.2f', $this->getBalance()),
-                'change'=>sprintf('%.2f', $this->getChangePercent()),
+                'change'    => $this->getChangePercent() ? sprintf('%.2f', $this->getChangePercent()) : null,
                 'groups'    => $this->buildGroups(),
                 'accounts'  => $this->buildAccounts(),
             ]
@@ -29,9 +29,9 @@ class AssetsReportResource extends JsonResource
     {
         return array_map(function ($group) {
             return [
-                'id' => $group->getId(),
-                'name' => $group->getName(),
-                'change'=>sprintf('%.2f', $group->getChangePercent()),
+                'id'        => $group->getId(),
+                'name'      => $group->getName(),
+                'change'    => $group->getChangePercent() ? sprintf('%.2f', $group->getChangePercent()) : null,
             ];
         }, $this->getGroups());
     }
@@ -44,7 +44,7 @@ class AssetsReportResource extends JsonResource
                     'id'        => $entry->getId(),
                     'name'      => $entry->getName(),
                     'balance'   => sprintf('%.2f', $entry->getCurrentBalance()),
-                    'change'    => sprintf('%.2f', $entry->getChangePercent()),
+                    'change'    => $entry->getChangePercent() ? sprintf('%.2f', $entry->getChangePercent()) : null,
                     'group_id'  => $group->getId(),
                 ];
             }, $group->getEntries());
