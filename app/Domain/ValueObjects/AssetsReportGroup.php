@@ -2,8 +2,8 @@
 
 namespace App\Domain\ValueObjects;
 
-class AssetsReportGroup {
-
+class AssetsReportGroup
+{
     private $id;
 
     private $name;
@@ -51,32 +51,53 @@ class AssetsReportGroup {
         return $this;
     }
 
-    public function addAllEntries($entries) {
-        foreach($entries as $entry) {
+    public function addAllEntries($entries)
+    {
+        foreach ($entries as $entry) {
             $this->entries[] = $entry;
         }
     }
-	/**
-	 *
-	 * @return mixed
-	 */
-	function getEntries() {
-		return $this->entries;
-	}
+    /**
+     *
+     * @return mixed
+     */
+    public function getEntries()
+    {
+        return $this->entries;
+    }
 
-	/**
-	 *
-	 * @param mixed $entries
-	 * @return AssetsReportGroup
-	 */
-	function setEntries($entries): self {
-		$this->entries = $entries;
-		return $this;
-	}
+    /**
+     *
+     * @param mixed $entries
+     * @return AssetsReportGroup
+     */
+    public function setEntries($entries): self
+    {
+        $this->entries = $entries;
+        return $this;
+    }
 
-    public function getBalance() {
-        return array_reduce($this->entries, function($sum, $entry) {
+    public function getBalance()
+    {
+        return array_reduce($this->entries, function ($sum, $entry) {
             return $sum + $entry->getCurrentBalance();
         });
+    }
+
+    public function getPreviousBalance()
+    {
+        return array_reduce($this->entries, function ($sum, $entry) {
+            return $sum + $entry->getPreviousBalance();
+        });
+    }
+
+
+    public function getChangePercent()
+    {
+        if ($this->getPreviousBalance() == 0) {
+            return 0;
+        }
+
+        return ($this->getBalance() - $this->getPreviousBalance())/$this->getPreviousBalance() * 100;
     }
 }

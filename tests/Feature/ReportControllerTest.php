@@ -40,23 +40,28 @@ class ReportControllerTest extends TestCase
             ->assertJson([
                 'data'  => [
                     'name'      => 'Assets',
-                    'balance'   => '48000.00'
+                    'balance'   => '48000.00',
+                    'change' => '60.00',
                 ]
             ])
             ->assertJson([
                 'data'  => [
                     'groups' => [
                         [
-                            'name'  => 'Cash equivalents'
+                            'name'  => 'Cash equivalents',
+                            'change' => '77.78',
                         ],
                         [
-                            'name'  => 'Paper investments'
+                            'name'  => 'Paper investments',
+                            'change' => '0.00',
                         ],
                         [
-                            'name'  => 'Receivable'
+                            'name'  => 'Receivable',
+                            'change' => '-100.00',
                         ],
                         [
-                            'name'  => 'Property'
+                            'name'  => 'Property',
+                            'change' => '0.00',
                         ]
                     ]
                 ]
@@ -68,18 +73,21 @@ class ReportControllerTest extends TestCase
                             'name'      => 'Savings - BDO',
                             'group_id'  => 1,
                             'balance'   => "38000.00",
+                'prev'=> "17000.00",
                             'change'    => "123.53"
                         ],
                         [
-                            'name' => 'MP2 Investment',
-                            'group_id'  => 2,
+                            'name' => 'Savings - Unionbank',
+                            'group_id'  => 1,
                             'balance'   => "10000.00",
+                'prev'=> "10000.00",
                             'change'    => "0.00"
                         ],
                         [
                             'name' => 'Accounts Receivable',
                             'group_id'  => 3,
                             'balance'   => '0.00',
+                'prev'=> "3000.00",
                             'change'    => '-100.00'
                         ],
                     ],
@@ -92,7 +100,7 @@ class ReportControllerTest extends TestCase
         FinancialAccount::factory()
                     ->state(new Sequence(
                         ['id' => 1,'name' => 'Savings - BDO'],
-                        ['id' => 2,'name' => 'MP2 Investment'],
+                        ['id' => 2,'name' => 'Savings - Unionbank'],
                         ['id' => 3,'name' => 'Accounts Receivable'],
                         ['id' => 4,'name' => 'Income'],
                         ['id' => 5,'name' => 'Expense'],
