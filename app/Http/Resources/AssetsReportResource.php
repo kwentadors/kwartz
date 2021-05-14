@@ -44,7 +44,6 @@ class AssetsReportResource extends JsonResource
                     'id'        => $entry->getId(),
                     'name'      => $entry->getName(),
                     'balance'   => sprintf('%.2f', $entry->getCurrentBalance()),
-        'prev'   => sprintf('%.2f', $entry->getPreviousBalance()),
                     'change'    => sprintf('%.2f', $entry->getChangePercent()),
                     'group_id'  => $group->getId(),
                 ];
