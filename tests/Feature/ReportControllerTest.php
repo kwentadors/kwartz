@@ -73,21 +73,18 @@ class ReportControllerTest extends TestCase
                             'name'      => 'Savings - BDO',
                             'group_id'  => 1,
                             'balance'   => "38000.00",
-                'prev'=> "17000.00",
                             'change'    => "123.53"
                         ],
                         [
                             'name' => 'Savings - Unionbank',
                             'group_id'  => 1,
                             'balance'   => "10000.00",
-                'prev'=> "10000.00",
                             'change'    => "0.00"
                         ],
                         [
                             'name' => 'Accounts Receivable',
                             'group_id'  => 3,
                             'balance'   => '0.00',
-                'prev'=> "3000.00",
                             'change'    => '-100.00'
                         ],
                     ],
