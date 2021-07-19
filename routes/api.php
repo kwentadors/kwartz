@@ -36,4 +36,5 @@ Route::prefix('v1')->group(function() {
         ->only('index');
 
     Route::get('/reports/assets', [ReportController::class, 'assetsReport']);
+    Route::get('/reports/income-expense', [ReportController::class, 'incomeExpenseReport']);
 });
