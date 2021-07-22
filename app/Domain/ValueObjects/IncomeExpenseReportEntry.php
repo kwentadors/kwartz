@@ -6,11 +6,6 @@ class IncomeExpenseReportEntry
 {
 
     /**
-     * @var int (JAN=1, FEB=2, ..., DEC=12)
-     */
-    private $month;
-
-    /**
      * @var float
      */
     private $income;
@@ -20,29 +15,15 @@ class IncomeExpenseReportEntry
      */
     private $expense;
 
-
     /**
-     * Get (JAN=1, FEB=2, ..., DEC=12)
-     *
-     * @return  int
+     * @var IncomeExpenseReportEntryKey
      */
-    public function getMonth()
-    {
-        return $this->month;
-    }
+    private $key;
 
-    /**
-     * Set (JAN=1, FEB=2, ..., DEC=12)
-     *
-     * @param  int  $month  (JAN=1, FEB=2, ..., DEC=12)
-     *
-     * @return  self
-     */
-    public function setMonth(int $month)
-    {
-        $this->month = $month;
 
-        return $this;
+    public function __construct(IncomeExpenseReportEntryKey $key)
+    {
+        $this->key = $key;
     }
 
     /**
@@ -91,5 +72,15 @@ class IncomeExpenseReportEntry
         $this->expense = $expense;
 
         return $this;
+    }
+
+    /**
+     * Get the value of key
+     *
+     * @return  IncomeExpenseReportEntryKey
+     */
+    public function getKey()
+    {
+        return $this->key;
     }
 }

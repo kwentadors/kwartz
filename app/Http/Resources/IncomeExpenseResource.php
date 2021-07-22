@@ -25,20 +25,28 @@ class IncomeExpenseResource extends JsonResource
     private function assembleIncomeList()
     {
         return array_map(function ($entry) {
-            $monthName = DateUtils::monthNameAbbr($entry->getMonth());
-            $amount = NumberFormatUtils::formatNumber($entry->getIncome());
-
-            return [$monthName => $amount];
+            return [
+                'key'   => $this->serializeEntryKey($entry->getKey()),
+                'value' => $amount = NumberFormatUtils::formatNumber($entry->getExpense())
+            ];
         }, $this->getMonthlyEntries());
     }
 
     private function assembleExpenseList()
     {
         return array_map(function ($entry) {
-            $monthName = DateUtils::monthNameAbbr($entry->getMonth());
-            $amount = NumberFormatUtils::formatNumber($entry->getExpense());
-
-            return [$monthName => $amount];
+            return [
+                'key'   => $this->serializeEntryKey($entry->getKey()),
+                'value' => $amount = NumberFormatUtils::formatNumber($entry->getExpense())
+            ];
         }, $this->getMonthlyEntries());
+    }
+
+    private function serializeEntryKey($key)
+    {
+        return [
+            'month' => $key->getMonth(),
+            'year'  => $key->getYear()
+        ];
     }
 }
