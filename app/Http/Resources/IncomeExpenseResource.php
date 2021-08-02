@@ -27,7 +27,7 @@ class IncomeExpenseResource extends JsonResource
         return array_map(function ($entry) {
             return [
                 'key'   => $this->serializeEntryKey($entry->getKey()),
-                'value' => $amount = NumberFormatUtils::formatNumber($entry->getExpense())
+                'value' => NumberFormatUtils::formatNumber($entry->getIncome())
             ];
         }, $this->getMonthlyEntries());
     }
@@ -37,7 +37,7 @@ class IncomeExpenseResource extends JsonResource
         return array_map(function ($entry) {
             return [
                 'key'   => $this->serializeEntryKey($entry->getKey()),
-                'value' => $amount = NumberFormatUtils::formatNumber($entry->getExpense())
+                'value' => NumberFormatUtils::formatNumber($entry->getExpense())
             ];
         }, $this->getMonthlyEntries());
     }
