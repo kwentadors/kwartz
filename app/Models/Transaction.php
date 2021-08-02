@@ -22,6 +22,10 @@ class Transaction extends Model
         'status' => 'OPEN',
     ];
 
+    protected $casts = [
+        'transaction_date' => 'datetime:Y-m-d',
+    ];
+
     public function entries() {
         return $this->hasMany(JournalEntry::class);
     }
