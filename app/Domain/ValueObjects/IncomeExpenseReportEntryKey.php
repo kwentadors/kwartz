@@ -43,22 +43,14 @@ class IncomeExpenseReportEntryKey
         return $this->year;
     }
 
-    /**
-     * Set the value of year
-     *
-     * @param  int  $year
-     *
-     * @return  self
-     */
-    public function setYear(int $year)
-    {
-        $this->year = $year;
-
-        return $this;
-    }
-
     public function __toString()
     {
-        return (DateUtils::monthNameAbbr($this->month))." ".($this->year);
+        return ($this->year).'-'.sprintf("%02d", $this->month);
+    }
+
+    public static function from(String $string)
+    {
+        $tokens = explode('-', $string);
+        return new IncomeExpenseReportEntryKey((int)$tokens[1], (int)$tokens[0]);
     }
 }

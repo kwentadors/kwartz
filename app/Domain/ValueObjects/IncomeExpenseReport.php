@@ -19,15 +19,34 @@ class IncomeExpenseReport
         return $this->monthlyEntries;
     }
 
-    /**
-     * Set the value of monthlyEntries
-     *
-     * @return  self
-     */
-    public function addMonthlyEntry(IncomeExpenseReportEntry $monthlyEntries)
+    public function setMonthlyIncome($key, float $income)
     {
-        $this->monthlyEntries[] = $monthlyEntries;
+        $entry = $this->findEntry($key);
+        if ($entry == null) {
+            $entry = new IncomeExpenseReportEntry($key);
+            $this->monthlyEntries[] = $entry;
+        }
+        $entry->setIncome($income);
+    }
 
-        return $this;
+    public function setMonthlyExpense($key, float $expense)
+    {
+        $entry = $this->findEntry($key);
+        if ($entry == null) {
+            $entry = new IncomeExpenseReportEntry($key);
+            $this->monthlyEntries[] = $entry;
+        }
+        $entry->setExpense($expense);
+    }
+
+    private function findEntry($entryKey)
+    {
+        foreach ($this->monthlyEntries as $entry) {
+            if ($entry->getKey() == $entryKey) {
+                return $entry;
+            }
+        }
+
+        return null;
     }
 }
