@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Route;
 
+use App\Domain\Utils\DateUtils;
+
 class TransactionResource extends JsonResource
 {
     /**
@@ -17,19 +19,24 @@ class TransactionResource extends JsonResource
     {
         return [
             'id'                => $this->id,
-            'transaction_date'  => $this->transaction_date,
+            'transaction_date'  => $this->transaction_date->format('Y-m-d'),
             'amount'            => (float) $this->amount,
             'description'       => $this->description,
             'status'            => $this->status,
-            'debit'             => array_map('self::journalEntryResource',
-                                    $this->debitEntries->all()),
-            'credit'            => array_map('self::journalEntryResource',
-                                    $this->creditEntries->all()),
+            'debit'             => array_map(
+                'self::journalEntryResource',
+                $this->debitEntries->all()
+            ),
+            'credit'            => array_map(
+                'self::journalEntryResource',
+                $this->creditEntries->all()
+            ),
             '_links'            => $this->getLinks()
         ];
     }
 
-    private static function journalEntryResource($entry) {
+    private static function journalEntryResource($entry)
+    {
         return [
             'id'        => $entry->id,
             'account'   => [
@@ -40,7 +47,8 @@ class TransactionResource extends JsonResource
         ];
     }
 
-    private function getLinks() {
+    private function getLinks()
+    {
         return [
             [
                 'rel'       =>'self',
