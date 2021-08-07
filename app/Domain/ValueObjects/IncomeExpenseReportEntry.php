@@ -8,12 +8,12 @@ class IncomeExpenseReportEntry
     /**
      * @var float
      */
-    private $income;
+    private $income = 0.0;
 
     /**
      * @var float
      */
-    private $expense;
+    private $expense = 0.0;
 
     /**
      * @var IncomeExpenseReportEntryKey
