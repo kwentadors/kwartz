@@ -7,40 +7,13 @@ use App\Models\FinancialAccount;
 use App\Models\EntryType;
 
 use Illuminate\Support\Facades\DB;
-use DateTime;
+use DateTimeImmutable;
 
 class IncomeExpenseAccountRepository
 {
-    public function fetchIncomeRelatedAccounts(array $accountNames, DateTime $startDate, DateTime $endDate)
+    public function fetchIncomeRelatedAccounts(array $accountNames, DateTimeImmutable $startDate, DateTimeImmutable $endDate)
     {
-        // $accountNames = [
-        //     'Income - Arcanys',
-        //     'Income - APT',
-        //     'Income - Stock Market',
-        //     'Income - Eve P2P',
-        //     'Incentives - Arcanys',
-        //     'Incentives - Bank',
-        //     'Incentives - Miscellaneous',
-
-        //     'Expense - Rent',
-        //     'Expense - Electricity',
-        //     'Expense - Water',
-        //     'Expense - Internet',
-        //     'Expense - Personal',
-        //     'Expense - Household',
-        //     'Expense - Netflix',
-        //     'Expense - FWD Insurance',
-        //     'Expense - Bank Charges',
-        //     'Expense - Learning Materials',
-        //     'Expense - Miscellaneous'
-        // ];
-
         $accounts = FinancialAccount::whereIn('name', $accountNames);
-        // $startDate = new DateTime('2021-06-07');
-        // $endDate = new DateTime('2021-06-19');
-        // $endDate = new DateTime();
-
-
         $journalEntries = $this->getJournalEntriesWithinDate($accounts, $startDate, $endDate);
 
         return $journalEntries;

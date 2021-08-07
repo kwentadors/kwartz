@@ -8,8 +8,9 @@ use App\Repositories\IncomeExpenseAccountRepository;
 use App\Domain\Utils\ReportUtils;
 use App\Models\JournalEntry;
 use App\Models\EntryType;
-
-use DateTime;
+use Illuminate\Support\Carbon;
+use DateTimeImmutable;
+use Carbon\CarbonImmutable;
 
 class IncomeExpenseReportGenerator
 {
@@ -49,18 +50,20 @@ class IncomeExpenseReportGenerator
 
     public function generateReport()
     {
-        $journalEntries = $this->fetchJournalEntries();
-        $journalEntries = $this->groupByIncomeExpense($journalEntries);
+        $rangeStart = (new CarbonImmutable())->sub(-6, 'months');
+        $rangeEnd = new CarbonImmutable();
+        $journalEntries = $this->fetchJournalEntries($rangeStart, $rangeEnd);
+        $journalEntries = $this->groupByIncomeExpense($journalEntries, $rangeStart, $rangeEnd);
 
         $report = new IncomeExpenseReport();
-        $expenseEntries = $this->groupByTransactionMonthYear($journalEntries['EXPENSE']);
+        $expenseEntries = $this->groupByTransactionMonthYear($journalEntries['EXPENSE'], $rangeStart, $rangeEnd);
         array_map(function ($serializedKey, $entries) use ($report) {
             $totalSum = $this->sumUpJournalEntryAmounts($entries);
             $key = IncomeExpenseReportEntryKey::from($serializedKey);
             $report->setMonthlyExpense($key, $totalSum);
         }, array_keys($expenseEntries), $expenseEntries);
 
-        $incomeEntries = $this->groupByTransactionMonthYear($journalEntries['INCOME']);
+        $incomeEntries = $this->groupByTransactionMonthYear($journalEntries['INCOME'], $rangeStart, $rangeEnd);
         array_map(function ($serializedKey, $entries) use ($report) {
             $totalSum = -$this->sumUpJournalEntryAmounts($entries);
             $key = IncomeExpenseReportEntryKey::from($serializedKey);
@@ -70,11 +73,9 @@ class IncomeExpenseReportGenerator
         return $report;
     }
 
-    private function fetchJournalEntries()
+    private function fetchJournalEntries(DateTimeImmutable $rangeStart, DateTimeImmutable $rangeEnd)
     {
-        $accountNames =self::INCOME_ACCOUNT_NAMES + self::EXPENSE_ACCOUNT_NAMES;
-        $rangeStart = new DateTime('2021-06-07');
-        $rangeEnd = new DateTime();
+        $accountNames = array_merge(self::INCOME_ACCOUNT_NAMES, self::EXPENSE_ACCOUNT_NAMES);
         return $this->incomeExpenseAccountRepository->fetchIncomeRelatedAccounts(
             $accountNames,
             $rangeStart,
@@ -92,21 +93,31 @@ class IncomeExpenseReportGenerator
             if (in_array($journalEntry->account->name, self::EXPENSE_ACCOUNT_NAMES)) {
                 return 'EXPENSE';
             }
-        });
-
-        if(!array_key_exists('INCOME', $result)) $result['INCOME'] = [];
-        if(!array_key_exists('EXPENSE', $result)) $result['EXPENSE'] = [];
+        }, ['INCOME', 'EXPENSE']);
 
         return $result;
     }
 
-    private function groupByTransactionMonthYear(array $journalEntries)
+    private function groupByTransactionMonthYear(array $journalEntries, DateTimeImmutable $rangeStart, DateTimeImmutable $rangeEnd)
     {
+        $expectedMonths = $this->getExpectedTransactionMonthYearGroups($rangeStart, $rangeEnd);
         return ReportUtils::array_group($journalEntries, function (JournalEntry $entry) {
             $month = $entry->transaction->transaction_date->month;
             $year = $entry->transaction->transaction_date->year;
             return new IncomeExpenseReportEntryKey($month, $year);
-        });
+        }, $expectedMonths);
+    }
+
+    private function getExpectedTransactionMonthYearGroups(DateTimeImmutable $rangeStart, DateTimeImmutable $rangeEnd)
+    {
+        $expectedMonths = [];
+        $iterator = new Carbon($rangeStart);
+        while ($iterator->month != $rangeEnd->month || $iterator->month != $rangeEnd->month) {
+            $iterator->add(1, 'month');
+            $expectedMonths[] = (string)(new IncomeExpenseReportEntryKey($iterator->month, $iterator->year));
+        }
+
+        return $expectedMonths;
     }
 
     private function sumUpJournalEntryAmounts(array $journalEntries)
@@ -117,6 +128,6 @@ class IncomeExpenseReportGenerator
             } else {
                 return $sum - $entry->amount;
             }
-        });
+        }, 0.0);
     }
 }
