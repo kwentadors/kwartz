@@ -84,7 +84,7 @@ class IncomeExpenseReportGenerator
 
     private function groupByIncomeExpense(array $journalEntries)
     {
-        return ReportUtils::array_group($journalEntries, function (JournalEntry $journalEntry) {
+        $result = ReportUtils::array_group($journalEntries, function (JournalEntry $journalEntry) {
             if (in_array($journalEntry->account->name, self::INCOME_ACCOUNT_NAMES)) {
                 return 'INCOME';
             }
@@ -93,6 +93,11 @@ class IncomeExpenseReportGenerator
                 return 'EXPENSE';
             }
         });
+
+        if(!array_key_exists('INCOME', $result)) $result['INCOME'] = [];
+        if(!array_key_exists('EXPENSE', $result)) $result['EXPENSE'] = [];
+
+        return $result;
     }
 
     private function groupByTransactionMonthYear(array $journalEntries)
