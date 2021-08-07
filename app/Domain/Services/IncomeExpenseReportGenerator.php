@@ -50,7 +50,7 @@ class IncomeExpenseReportGenerator
 
     public function generateReport()
     {
-        $rangeStart = (new CarbonImmutable())->sub(-6, 'months');
+        $rangeStart = (new CarbonImmutable())->sub(6, 'months');
         $rangeEnd = new CarbonImmutable();
         $journalEntries = $this->fetchJournalEntries($rangeStart, $rangeEnd);
         $journalEntries = $this->groupByIncomeExpense($journalEntries, $rangeStart, $rangeEnd);
