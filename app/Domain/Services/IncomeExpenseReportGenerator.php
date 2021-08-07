@@ -65,7 +65,7 @@ class IncomeExpenseReportGenerator
 
         $incomeEntries = $this->groupByTransactionMonthYear($journalEntries['INCOME'], $rangeStart, $rangeEnd);
         array_map(function ($serializedKey, $entries) use ($report) {
-            $totalSum = -$this->sumUpJournalEntryAmounts($entries);
+            $totalSum = $this->sumUpJournalEntryAmounts($entries);
             $key = IncomeExpenseReportEntryKey::from($serializedKey);
             $report->setMonthlyIncome($key, $totalSum);
         }, array_keys($incomeEntries), $incomeEntries);
@@ -123,7 +123,7 @@ class IncomeExpenseReportGenerator
     private function sumUpJournalEntryAmounts(array $journalEntries)
     {
         return array_reduce($journalEntries, function ($sum, $entry) {
-            if ($entry->transaction->type == EntryType::DEBIT) {
+            if ($entry->transaction->type ==  $entry->account->type) {
                 return $sum + $entry->amount;
             } else {
                 return $sum - $entry->amount;
