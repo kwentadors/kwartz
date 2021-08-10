@@ -16,6 +16,12 @@ class IncomeExpenseReport
      */
     public function getMonthlyEntries()
     {
+        usort($this->monthlyEntries, function($entry1, $entry2){
+            $entry1Key = (12 * $entry1->getKey()->getYear()) + ($entry1->getKey()->getMonth() - 1);
+            $entry2Key = (12 * $entry2->getKey()->getYear()) + ($entry2->getKey()->getMonth() - 1);
+            return $entry1Key - $entry2Key;
+        });
+
         return $this->monthlyEntries;
     }
 

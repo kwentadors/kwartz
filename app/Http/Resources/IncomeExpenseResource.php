@@ -45,7 +45,7 @@ class IncomeExpenseResource extends JsonResource
     private function serializeEntryKey($key)
     {
         return [
-            'month' => $key->getMonth(),
+            'month' => DateUtils::monthName($key->getMonth()),
             'year'  => $key->getYear()
         ];
     }
